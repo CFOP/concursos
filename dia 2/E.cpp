@@ -4,7 +4,7 @@ using namespace std;
 
 int n;
 long long a[MAX];
-
+long long c[MAX];
 long long b[MAX];
 
 long long bruta(){
@@ -37,29 +37,31 @@ int main(){
     long long oR=0;
     for(int i=0; i<n; i++){
         cin>>a[i];
-        b[i]=a[i];
+        c[i]=b[i]=a[i];
     }
     sort(a, a+n);
-    for(int i=0; i<n-1; i++)oR|=a[i];
+
     long long anD=a[n-1];
-    for(int i=n-1; i>=0; i--){
-        //cout<<a[i]<<" "<<anD<<" "<<oR<<"\n";
-        int p =a[i];
-        a[i]&=anD;
-        a[i]|=oR;
-        anD|= ~p;
-        oR&= anD;
-        for(int i=0; i<n; i++)cout<<a[i]<<" ";
-        cout<<"\n";
+    for(int i=0; i<n-1; i++)oR|=a[i];
+    for(int i=0; i<n; i++)anD&=a[i];
+
+    for(int i=0; i<n; i++){
+        c[i]&=anD;
+        anD|=a[i];
     }
-    for(int i=0; i<n; i++)cout<<a[i]<<" ";
+    for(int i=n-1; i>=0; i--){
+        c[i]|=oR;
+        oR&=a[i];
+    }
+
+    for(int i=0; i<n; i++)cout<<c[i]<<" ";
     cout<<"\n";
     long long s = 0;
     for(int i=0; i<n; i++){
-        s+=(long long)a[i]*(long long)a[i];
+        s+=(long long)c[i]*(long long)c[i];
     }
     cout<<s<<"\n";
-    //cout<<bruta()<<"\n";
+    cout<<bruta()<<"\n";
     return 0;
 }
 
